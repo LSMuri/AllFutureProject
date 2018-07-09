@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FinalProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AuthorLibrary">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Gender" Type="text" Nullable="false" />
+          <Property Name="YearOfBirth" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookLibrary">
+          <Key>
+            <PropertyRef Name="UniqueID" />
+          </Key>
+          <Property Name="UniqueID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Book" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Author" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Pages" Type="int" Nullable="false" />
+          <Property Name="RealeseDate" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PersonLibrary">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookID" Type="int" />
+          <Property Name="RentedFrom" Type="date" />
+          <Property Name="RentedTo" Type="text" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IDNumber" Type="bigint" Nullable="false" />
+          <Property Name="EGN" Type="bigint" Nullable="false" />
+          <Property Name="Adress" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="text" Nullable="false" />
+          <Property Name="Phone" Type="bigint" Nullable="false" />
+          <Property Name="email" Type="text" />
+        </EntityType>
+        <Association Name="FK_AuthorLibrary_BookLibrary1">
+          <End Role="BookLibrary" Type="Self.BookLibrary" Multiplicity="1" />
+          <End Role="AuthorLibrary" Type="Self.AuthorLibrary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookLibrary">
+              <PropertyRef Name="UniqueID" />
+            </Principal>
+            <Dependent Role="AuthorLibrary">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonLibrary_BookLibrary1">
+          <End Role="BookLibrary" Type="Self.BookLibrary" Multiplicity="0..1" />
+          <End Role="PersonLibrary" Type="Self.PersonLibrary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookLibrary">
+              <PropertyRef Name="UniqueID" />
+            </Principal>
+            <Dependent Role="PersonLibrary">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FinalProjectModelStoreContainer">
+          <EntitySet Name="AuthorLibrary" EntityType="Self.AuthorLibrary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookLibrary" EntityType="Self.BookLibrary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonLibrary" EntityType="Self.PersonLibrary" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AuthorLibrary_BookLibrary1" Association="Self.FK_AuthorLibrary_BookLibrary1">
+            <End Role="BookLibrary" EntitySet="BookLibrary" />
+            <End Role="AuthorLibrary" EntitySet="AuthorLibrary" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonLibrary_BookLibrary1" Association="Self.FK_PersonLibrary_BookLibrary1">
+            <End Role="BookLibrary" EntitySet="BookLibrary" />
+            <End Role="PersonLibrary" EntitySet="PersonLibrary" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FinalProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AuthorLibrary">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="YearOfBirth" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BookLibrary" Relationship="Self.FK_AuthorLibrary_BookLibrary1" FromRole="AuthorLibrary" ToRole="BookLibrary" />
+        </EntityType>
+        <EntityType Name="BookLibrary">
+          <Key>
+            <PropertyRef Name="UniqueID" />
+          </Key>
+          <Property Name="UniqueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Book" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Author" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pages" Type="Int32" Nullable="false" />
+          <Property Name="RealeseDate" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AuthorLibrary" Relationship="Self.FK_AuthorLibrary_BookLibrary1" FromRole="BookLibrary" ToRole="AuthorLibrary" />
+          <NavigationProperty Name="PersonLibrary" Relationship="Self.FK_PersonLibrary_BookLibrary1" FromRole="BookLibrary" ToRole="PersonLibrary" />
+        </EntityType>
+        <EntityType Name="PersonLibrary">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookID" Type="Int32" />
+          <Property Name="RentedFrom" Type="DateTime" Precision="0" />
+          <Property Name="RentedTo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IDNumber" Type="Int64" Nullable="false" />
+          <Property Name="EGN" Type="Int64" Nullable="false" />
+          <Property Name="Adress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="Int64" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BookLibrary" Relationship="Self.FK_PersonLibrary_BookLibrary1" FromRole="PersonLibrary" ToRole="BookLibrary" />
+        </EntityType>
+        <Association Name="FK_AuthorLibrary_BookLibrary1">
+          <End Role="BookLibrary" Type="Self.BookLibrary" Multiplicity="1" />
+          <End Role="AuthorLibrary" Type="Self.AuthorLibrary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookLibrary">
+              <PropertyRef Name="UniqueID" />
+            </Principal>
+            <Dependent Role="AuthorLibrary">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonLibrary_BookLibrary1">
+          <End Role="BookLibrary" Type="Self.BookLibrary" Multiplicity="0..1" />
+          <End Role="PersonLibrary" Type="Self.PersonLibrary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookLibrary">
+              <PropertyRef Name="UniqueID" />
+            </Principal>
+            <Dependent Role="PersonLibrary">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FinalProjectEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AuthorLibrary" EntityType="Self.AuthorLibrary" />
+          <EntitySet Name="BookLibrary" EntityType="Self.BookLibrary" />
+          <EntitySet Name="PersonLibrary" EntityType="Self.PersonLibrary" />
+          <AssociationSet Name="FK_AuthorLibrary_BookLibrary1" Association="Self.FK_AuthorLibrary_BookLibrary1">
+            <End Role="BookLibrary" EntitySet="BookLibrary" />
+            <End Role="AuthorLibrary" EntitySet="AuthorLibrary" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonLibrary_BookLibrary1" Association="Self.FK_PersonLibrary_BookLibrary1">
+            <End Role="BookLibrary" EntitySet="BookLibrary" />
+            <End Role="PersonLibrary" EntitySet="PersonLibrary" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FinalProjectModelStoreContainer" CdmEntityContainer="FinalProjectEntities">
+          <EntitySetMapping Name="AuthorLibrary">
+            <EntityTypeMapping TypeName="FinalProjectModel.AuthorLibrary">
+              <MappingFragment StoreEntitySet="AuthorLibrary">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="YearOfBirth" ColumnName="YearOfBirth" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookLibrary">
+            <EntityTypeMapping TypeName="FinalProjectModel.BookLibrary">
+              <MappingFragment StoreEntitySet="BookLibrary">
+                <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
+                <ScalarProperty Name="Book" ColumnName="Book" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Pages" ColumnName="Pages" />
+                <ScalarProperty Name="RealeseDate" ColumnName="RealeseDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonLibrary">
+            <EntityTypeMapping TypeName="FinalProjectModel.PersonLibrary">
+              <MappingFragment StoreEntitySet="PersonLibrary">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="RentedFrom" ColumnName="RentedFrom" />
+                <ScalarProperty Name="RentedTo" ColumnName="RentedTo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+                <ScalarProperty Name="EGN" ColumnName="EGN" />
+                <ScalarProperty Name="Adress" ColumnName="Adress" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
